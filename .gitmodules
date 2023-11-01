@@ -1,0 +1,6 @@
+[submodule "MultiversePredFlask"]
+	path = MultiversePredFlask
+	url = git@github.com:cibimn/MultiversePredFlask.git
+[submodule "MultiversePredFront"]
+	path = MultiversePredFront
+	url = git@github.com:cibimn/MultiversePredFront.git

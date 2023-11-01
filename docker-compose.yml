@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_multiverse_db
+    environment:
+      MYSQL_ROOT_PASSWORD: MANIcb002
+      MYSQL_DATABASE: multiverse_db
+    ports:
+      - "3306:3306"
+    networks:
+      - multiverse_network
+  flask-app:
+    build: .
+    ports:
+      - "8080:5000"
+    networks:
+      - multiverse_network
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    networks:
+      - multiverse_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - multiverse_network
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"  # Enable anonymous access for simplicity
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"  # Set anonymous user role to Admin
+      GF_USERS_ALLOW_SIGN_UP: "false"  # Disable user sign-up
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    command: ["promtail", "-config.file=/etc/promtail/config.yml"]
+    volumes:
+      - ./promtail/config:/etc/promtail
+    networks:
+      - multiverse_network
+
+networks:
+  multiverse_network:
