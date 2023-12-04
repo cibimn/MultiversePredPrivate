@@ -12,11 +12,21 @@ services:
     networks:
       - multiverse_network
   flask-app:
-    build: .
+    build: ./MultiversePredFlask/
     ports:
       - "8080:5000"
     networks:
       - multiverse_network
+      - portainer_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flask-app.rule=Host(`mvroles.vulture.co.in`)"
+      - "traefik.http.routers.flask-app.entrypoints=websecure"
+      - "traefik.http.routers.flask-app.middlewares=redirect-https"
+      - "traefik.http.services.flask-app.loadbalancer.server.port=5000"
+      - "traefik.http.routers.flask-app.service=flask-app"
+      - "traefik.http.routers.flask-app.tls=true"
+      - "traefik.http.routers.flask-app.tls.certresolver=leresolver"
 
   loki:
     image: grafana/loki:latest
@@ -25,6 +35,7 @@ services:
       - "3100:3100"
     networks:
       - multiverse_network
+    
 
   grafana:
     image: grafana/grafana:latest
@@ -34,18 +45,20 @@ services:
     networks:
       - multiverse_network
     environment:
-      GF_AUTH_ANONYMOUS_ENABLED: "true"  # Enable anonymous access for simplicity
+      #GF_AUTH_ANONYMOUS_ENABLED: "true"  # Enable anonymous access for simplicity
       GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"  # Set anonymous user role to Admin
       GF_USERS_ALLOW_SIGN_UP: "false"  # Disable user sign-up
 
-  promtail:
-    image: grafana/promtail:latest
-    container_name: promtail
-    command: ["promtail", "-config.file=/etc/promtail/config.yml"]
-    volumes:
-      - ./promtail/config:/etc/promtail
-    networks:
-      - multiverse_network
+  # promtail:
+  #   image: grafana/promtail:latest
+  #   container_name: promtail
+  #   command: ["promtail", "-config.file=/etc/promtail/config.yml"]
+  #   volumes:
+  #     - ./promtail/config:/etc/promtail
+  #   networks:
+  #     - multiverse_network
 
 networks:
   multiverse_network:
+  portainer_default:
+    external: true
