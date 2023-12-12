@@ -1,5 +1,5 @@
 # Role Prediction in Multiverse
-
+![mvroles](https://github.com/cibimn/MultiversePredPrivate/assets/3116612/d854a5ab-bba4-445b-b713-98d781109963)
 ## Overview
 Role Prediction in Multiverse is a cutting-edge web application leveraging OpenAI's GPT-3.5 for role prediction within a multiverse context. It integrates a Flask backend with DALL-E image generation and a Vite React frontend, offering a unique and interactive experience.
 
