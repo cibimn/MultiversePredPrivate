@@ -53,5 +53,5 @@ This project is under the [MIT License](LICENSE.md).
 - Vercel for hosting the frontend.
 
 ## Contact
-For inquiries, please contact [Your Email](mailto:cibimn@outlook.com).
+For inquiries, please contact [cibimvn@outlook.com](mailto:cibimvn@outlook.com).
 
